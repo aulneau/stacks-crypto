@@ -1,0 +1,28 @@
+{
+  "name": "stacks-crypto",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.ts",
+  "module": "dist/stacks-crypto.esm.js",
+  "typings": "dist/index.d.ts",
+  "unpkg": "dist/stacks-crypto.cjs.production.min.js",
+  "scripts": {
+    "build": "tsdx build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Thomas Osmonson",
+  "license": "ISC",
+  "devDependencies": {
+    "@stacks/prettier-config": "^0.0.7",
+    "prettier": "^2.2.1",
+    "tsdx": "^0.14.1"
+  },
+  "prettier": "@stacks/prettier-config",
+  "dependencies": {
+    "@types/randombytes": "^2.0.0",
+    "buffer": "^6.0.3",
+    "jssha": "^3.2.0",
+    "noble-secp256k1": "^1.1.2",
+    "randombytes": "^2.1.0"
+  }
+}
