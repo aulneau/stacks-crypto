@@ -37,8 +37,8 @@ export type TriplesecDecryptSignature = (
 ) => void;
 
 export interface WebCryptoLib {
-  lib: SubtleCrypto;
-  name: 'subtleCrypto';
+  lib: Crypto; // Note this is the typedef for the Web Crypto API, included with typescript
+  name: 'webCrypto';
 }
 
 export interface NodeCryptoLib {
@@ -51,8 +51,8 @@ export interface NodeCryptoLib {
 export async function getCryptoLib(): Promise<WebCryptoLib | NodeCryptoLib> {
   if (isSubtleCryptoAvailable()) {
     return {
-      lib: crypto.subtle,
-      name: 'subtleCrypto',
+      lib: crypto,
+      name: 'webCrypto',
     };
   } else {
     try {

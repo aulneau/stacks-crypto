@@ -1,8 +1,8 @@
 import { getPublicKey, getSharedSecret, utils } from 'noble-secp256k1';
-import randomBytes from 'randombytes';
 import { Buffer } from 'buffer';
 import { sharedSecretToKeys, aes256CbcEncrypt, hmacSha256 } from './common/ecies-helpers';
 import { CipherObject, EncryptECIESOptions } from './common/types';
+import { getRandomBytes } from './common/random-bytes';
 
 export async function encryptECIES(options: EncryptECIESOptions): Promise<CipherObject> {
   const { publicKey, content, cipherTextEncoding, wasString } = options;
@@ -10,7 +10,7 @@ export async function encryptECIES(options: EncryptECIESOptions): Promise<Cipher
   const ephemeralPublicKey = Buffer.from(getPublicKey(ephemeralPrivateKey), 'hex');
   const sharedKey = getSharedSecret(ephemeralPrivateKey, publicKey);
   const sharedKeys = await sharedSecretToKeys(Buffer.from(sharedKey));
-  const initializationVector = randomBytes(16);
+  const initializationVector = await getRandomBytes(16);
 
   const cipherText = await aes256CbcEncrypt(
     initializationVector,

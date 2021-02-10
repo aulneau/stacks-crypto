@@ -51,10 +51,10 @@ export class NodeCryptoAesCipher implements AesCipher {
 }
 
 export class WebCryptoAesCipher implements AesCipher {
-  subtleCrypto: SubtleCrypto;
+  webCrypto: Crypto;
 
-  constructor(subtleCrypto: SubtleCrypto) {
-    this.subtleCrypto = subtleCrypto;
+  constructor(webCrypto: Crypto) {
+    this.webCrypto = webCrypto;
   }
 
   async encrypt(
@@ -74,10 +74,14 @@ export class WebCryptoAesCipher implements AesCipher {
     } else {
       throw new Error(`Unsupported cipher algorithm "${algorithm}"`);
     }
-    const cryptoKey = await this.subtleCrypto.importKey('raw', key, { name: algo, length }, false, [
-      'encrypt',
-    ]);
-    const result = await this.subtleCrypto.encrypt({ name: algo, iv }, cryptoKey, data);
+    const cryptoKey = await this.webCrypto.subtle.importKey(
+      'raw',
+      key,
+      { name: algo, length },
+      false,
+      ['encrypt']
+    );
+    const result = await this.webCrypto.subtle.encrypt({ name: algo, iv }, cryptoKey, data);
     return Buffer.from(result);
   }
 
@@ -98,17 +102,21 @@ export class WebCryptoAesCipher implements AesCipher {
     } else {
       throw new Error(`Unsupported cipher algorithm "${algorithm}"`);
     }
-    const cryptoKey = await this.subtleCrypto.importKey('raw', key, { name: algo, length }, false, [
-      'decrypt',
-    ]);
-    const result = await this.subtleCrypto.decrypt({ name: algo, iv }, cryptoKey, data);
+    const cryptoKey = await this.webCrypto.subtle.importKey(
+      'raw',
+      key,
+      { name: algo, length },
+      false,
+      ['decrypt']
+    );
+    const result = await this.webCrypto.subtle.decrypt({ name: algo, iv }, cryptoKey, data);
     return Buffer.from(result);
   }
 }
 
 export async function createCipher(): Promise<AesCipher> {
   const cryptoLib = await getCryptoLib();
-  if (cryptoLib.name === 'subtleCrypto') {
+  if (cryptoLib.name === 'webCrypto') {
     return new WebCryptoAesCipher(cryptoLib.lib);
   } else {
     return new NodeCryptoAesCipher(cryptoLib.lib.createCipheriv, cryptoLib.lib.createDecipheriv);

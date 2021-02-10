@@ -20,14 +20,12 @@
   "license": "ISC",
   "devDependencies": {
     "@stacks/prettier-config": "^0.0.7",
-    "@types/randombytes": "^2.0.0",
     "prettier": "^2.2.1",
     "tsdx": "^0.14.1"
   },
   "prettier": "@stacks/prettier-config",
   "dependencies": {
     "buffer": "^6.0.3",
-    "noble-secp256k1": "^1.1.2",
-    "randombytes": "^2.1.0"
+    "noble-secp256k1": "^1.1.2"
   }
 }

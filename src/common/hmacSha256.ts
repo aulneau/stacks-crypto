@@ -16,21 +16,21 @@ export class NodeCryptoHmacSha256 implements Hmac {
 }
 
 export class WebCryptoHmacSha256 implements Hmac {
-  subtleCrypto: SubtleCrypto;
+  webCrypto: Crypto;
 
-  constructor(subtleCrypto: SubtleCrypto) {
-    this.subtleCrypto = subtleCrypto;
+  constructor(webCrypto: Crypto) {
+    this.webCrypto = webCrypto;
   }
 
   async digest(key: Buffer, data: Buffer): Promise<Buffer> {
-    const cryptoKey = await this.subtleCrypto.importKey(
+    const cryptoKey = await this.webCrypto.subtle.importKey(
       'raw',
       key,
       { name: 'HMAC', hash: 'SHA-256' },
       true,
       ['sign']
     );
-    const sig = await this.subtleCrypto.sign(
+    const sig = await this.webCrypto.subtle.sign(
       // The `hash` is only specified for non-compliant browsers like Edge.
       { name: 'HMAC', hash: 'SHA-256' },
       cryptoKey,
@@ -42,7 +42,7 @@ export class WebCryptoHmacSha256 implements Hmac {
 
 export async function createHmacSha256(): Promise<Hmac> {
   const cryptoLib = await getCryptoLib();
-  if (cryptoLib.name === 'subtleCrypto') {
+  if (cryptoLib.name === 'webCrypto') {
     return new WebCryptoHmacSha256(cryptoLib.lib);
   } else {
     return new NodeCryptoHmacSha256(cryptoLib.lib.createHmac);

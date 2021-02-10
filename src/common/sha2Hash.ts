@@ -23,10 +23,10 @@ export class NodeCryptoSha2Hash {
 }
 
 export class WebCryptoSha2Hash implements Sha2Hash {
-  subtleCrypto: SubtleCrypto;
+  webCrypto: Crypto;
 
-  constructor(subtleCrypto: SubtleCrypto) {
-    this.subtleCrypto = subtleCrypto;
+  constructor(webCrypto: Crypto) {
+    this.webCrypto = webCrypto;
   }
 
   async digest(data: Buffer, algorithm = 'sha256'): Promise<Buffer> {
@@ -39,7 +39,7 @@ export class WebCryptoSha2Hash implements Sha2Hash {
       throw new Error(`Unsupported hash algorithm ${algorithm}`);
     }
     try {
-      const hash = await this.subtleCrypto.digest(algo, data);
+      const hash = await this.webCrypto.subtle.digest(algo, data);
       return Buffer.from(hash);
     } catch (error) {
       console.error(error);
@@ -51,7 +51,7 @@ export class WebCryptoSha2Hash implements Sha2Hash {
 
 export async function createSha2Hash(): Promise<Sha2Hash> {
   const cryptoLib = await getCryptoLib();
-  if (cryptoLib.name === 'subtleCrypto') {
+  if (cryptoLib.name === 'webCrypto') {
     return new WebCryptoSha2Hash(cryptoLib.lib);
   } else {
     return new NodeCryptoSha2Hash(cryptoLib.lib.createHash);
