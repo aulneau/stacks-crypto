@@ -1,6 +1,6 @@
 import { createCipher } from './aes-cypher';
 import { createHmacSha256 } from './hmacSha256';
-import { hashSha512Sync } from './sha2Hash';
+import { hashSha512 } from './sha2Hash';
 
 // @ts-ignore -- doesn't like using Buffer as type?
 import { Buffer } from 'buffer';
@@ -20,11 +20,11 @@ export async function hmacSha256(key: Buffer, content: Buffer) {
   return hmacSha256.digest(key, content);
 }
 
-export function sharedSecretToKeys(
+export async function sharedSecretToKeys(
   sharedSecret: Buffer
-): { encryptionKey: Buffer; hmacKey: Buffer } {
+): Promise<{ encryptionKey: Buffer; hmacKey: Buffer }> {
   // generate mac and encryption key from shared secret
-  const hashedSecret = hashSha512Sync(sharedSecret);
+  const hashedSecret = await hashSha512(sharedSecret);
   return {
     encryptionKey: hashedSecret.slice(0, 32),
     hmacKey: hashedSecret.slice(32),

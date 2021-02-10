@@ -25,7 +25,7 @@ export async function decryptECIES(options: DecryptECIESOptions): Promise<Buffer
 
   const ephemeralPK = cipherObject.ephemeralPK;
   const sharedKey = getSharedSecret(privateKey, ephemeralPK);
-  const sharedKeys = sharedSecretToKeys(Buffer.from(sharedKey));
+  const sharedKeys = await sharedSecretToKeys(Buffer.from(sharedKey));
   const ivBuffer = Buffer.from(cipherObject.iv, 'hex');
 
   let cipherTextBuffer: Buffer;

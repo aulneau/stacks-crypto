@@ -9,7 +9,7 @@ export async function encryptECIES(options: EncryptECIESOptions): Promise<Cipher
   const ephemeralPrivateKey = Buffer.from(utils.randomPrivateKey()).toString('hex');
   const ephemeralPublicKey = Buffer.from(getPublicKey(ephemeralPrivateKey), 'hex');
   const sharedKey = getSharedSecret(ephemeralPrivateKey, publicKey);
-  const sharedKeys = sharedSecretToKeys(Buffer.from(sharedKey));
+  const sharedKeys = await sharedSecretToKeys(Buffer.from(sharedKey));
   const initializationVector = randomBytes(16);
 
   const cipherText = await aes256CbcEncrypt(

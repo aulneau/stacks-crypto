@@ -1,4 +1,3 @@
-import jsSHA from 'jssha';
 import { Buffer } from 'buffer';
 import { getCryptoLib } from './crypto-utils';
 
@@ -16,11 +15,9 @@ export class NodeCryptoSha2Hash {
       const result = this.createHash(algorithm).update(data).digest();
       return Promise.resolve(result);
     } catch (error) {
-      console.log(error);
-      console.log(
-        `Error performing ${algorithm} digest with Node.js 'crypto.createHash', falling back to JS implementation.`
-      );
-      return Promise.resolve(algorithm === 'sha256' ? hashSha256Sync(data) : hashSha512Sync(data));
+      console.error(error);
+      console.error(`Error performing ${algorithm} digest with Node.js 'crypto.createHash'`);
+      throw error;
     }
   }
 }
@@ -45,11 +42,9 @@ export class WebCryptoSha2Hash implements Sha2Hash {
       const hash = await this.subtleCrypto.digest(algo, data);
       return Buffer.from(hash);
     } catch (error) {
-      console.log(error);
-      console.log(
-        `Error performing ${algorithm} digest with WebCrypto, falling back to JS implementation.`
-      );
-      return Promise.resolve(algorithm === 'sha256' ? hashSha256Sync(data) : hashSha512Sync(data));
+      console.error(error);
+      console.error(`Error performing ${algorithm} digest with WebCrypto.`);
+      throw error;
     }
   }
 }
@@ -63,15 +58,12 @@ export async function createSha2Hash(): Promise<Sha2Hash> {
   }
 }
 
-export function hashSha256Sync(data: Buffer) {
-  const hash = new jsSHA('SHA-256', 'ARRAYBUFFER');
-  hash.update(data);
-  return Buffer.from(hash.getHash('HEX'), 'hex');
+export async function hashSha256(data: Buffer): Promise<Buffer> {
+  const hash = await createSha2Hash();
+  return await hash.digest(data, 'sha512');
 }
 
-export function hashSha512Sync(data: Buffer) {
-  const hash = new jsSHA('SHA-512', 'ARRAYBUFFER');
-
-  hash.update(data);
-  return Buffer.from(hash.getHash('HEX'), 'hex');
+export async function hashSha512(data: Buffer): Promise<Buffer> {
+  const hash = await createSha2Hash();
+  return await hash.digest(data, 'sha512');
 }
