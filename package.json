@@ -1,25 +1,31 @@
 {
   "name": "stacks-crypto",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.0-beta.0",
+  "description": "ES modules for foundational encrypt/decrypt methods for use within the Stacks ecosystem.",
   "main": "src/index.ts",
   "module": "dist/stacks-crypto.esm.js",
   "typings": "dist/index.d.ts",
   "unpkg": "dist/stacks-crypto.cjs.production.min.js",
   "scripts": {
     "build": "tsdx build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prepublishOnly": "yarn typecheck && yarn build",
+    "start": "tsdx watch --verbose --noClean --onSuccess yalc publish --push",
+    "test": "tsdx test --passWithNoTests",
+    "typecheck": "tsc --noEmit",
+    "typecheck:watch": "npm run typecheck -- --watch",
+    "lint:prettier": "prettier --check \"src/**/*.ts\"",
+    "lint:prettier:fix": "prettier --write \"src/**/*.ts\""
   },
   "author": "Thomas Osmonson",
   "license": "ISC",
   "devDependencies": {
     "@stacks/prettier-config": "^0.0.7",
+    "@types/randombytes": "^2.0.0",
     "prettier": "^2.2.1",
     "tsdx": "^0.14.1"
   },
   "prettier": "@stacks/prettier-config",
   "dependencies": {
-    "@types/randombytes": "^2.0.0",
     "buffer": "^6.0.3",
     "jssha": "^3.2.0",
     "noble-secp256k1": "^1.1.2",

@@ -334,20 +334,8 @@ const sr = initU8Array([
   11,
 ]);
 
-const hl = initU32Array([
-  0x00000000,
-  0x5a827999,
-  0x6ed9eba1,
-  0x8f1bbcdc,
-  0xa953fd4e,
-]);
-const hr = initU32Array([
-  0x50a28be6,
-  0x5c4dd124,
-  0x6d703ef3,
-  0x7a6d76e9,
-  0x00000000,
-]);
+const hl = initU32Array([0x00000000, 0x5a827999, 0x6ed9eba1, 0x8f1bbcdc, 0xa953fd4e]);
+const hr = initU32Array([0x50a28be6, 0x5c4dd124, 0x6d703ef3, 0x7a6d76e9, 0x00000000]);
 
 function rotl(x: number, n: number): number {
   return (x << n) | (x >>> (32 - n));
@@ -428,11 +416,7 @@ function readInt32LE(buffer: ByteArray, offset: number): number {
   );
 }
 
-function writeUInt32LE(
-  buffer: ByteArray,
-  value: number,
-  offset: number
-): number {
+function writeUInt32LE(buffer: ByteArray, value: number, offset: number): number {
   value = +value;
   offset >>>= 0;
   buffer[offset + 3] = value >>> 24;
@@ -442,11 +426,7 @@ function writeUInt32LE(
   return offset + 4;
 }
 
-function writeInt32LE(
-  buffer: ByteArray,
-  value: number,
-  offset: number
-): number {
+function writeInt32LE(buffer: ByteArray, value: number, offset: number): number {
   value = +value;
   offset >>>= 0;
   buffer[offset] = value & 0xff;
@@ -457,7 +437,7 @@ function writeInt32LE(
 }
 
 function initU32Array(data: number[]): U32Array {
-  if (typeof Uint32Array !== "undefined") {
+  if (typeof Uint32Array !== 'undefined') {
     return new Uint32Array(data);
   } else {
     return data;
@@ -465,7 +445,7 @@ function initU32Array(data: number[]): U32Array {
 }
 
 function initU8Array(data: number[]): ByteArray {
-  if (typeof Uint8Array !== "undefined") {
+  if (typeof Uint8Array !== 'undefined') {
     return new Uint8Array(data);
   } else {
     return data;
@@ -473,7 +453,7 @@ function initU8Array(data: number[]): ByteArray {
 }
 
 function createU8Array(size: number): ByteArray {
-  if (typeof Uint8Array !== "undefined") {
+  if (typeof Uint8Array !== 'undefined') {
     return new Uint8Array(size);
   } else {
     return new Array<number>(size);
@@ -520,14 +500,13 @@ export class RIPEMD160 {
   }
 
   update(data: ByteArray) {
-    if (this._finalized) throw new Error("Digest already called");
+    if (this._finalized) throw new Error('Digest already called');
 
     // consume data
     const block = this._block;
     let offset = 0;
     while (this._blockOffset + data.length - offset >= this._blockSize) {
-      for (let i = this._blockOffset; i < this._blockSize; )
-        block[i++] = data[offset++];
+      for (let i = this._blockOffset; i < this._blockSize; ) block[i++] = data[offset++];
       this._update();
       this._blockOffset = 0;
     }
@@ -607,7 +586,7 @@ export class RIPEMD160 {
 
   digest(): ByteArray {
     if (this._finalized) {
-      throw new Error("Digest already called");
+      throw new Error('Digest already called');
     }
 
     this._finalized = true;
