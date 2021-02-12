@@ -1,4 +1,21 @@
-const bitcoin = {
+export enum Versions {
+  mainnetP2SH = 0x00,
+  testnetP2SH = 0x6f,
+}
+
+interface Network {
+  messagePrefix: string;
+  bech32: string;
+  bip32: {
+    public: number;
+    private: number;
+  };
+  pubKeyHash: number;
+  scriptHash: number;
+  wif: number;
+}
+
+const bitcoin: Network = {
   messagePrefix: '\x18Bitcoin Signed Message:\n',
   bech32: 'bc',
   bip32: {
@@ -9,7 +26,7 @@ const bitcoin = {
   scriptHash: 0x05,
   wif: 0x80,
 };
-const regtest = {
+const regtest: Network = {
   messagePrefix: '\x18Bitcoin Signed Message:\n',
   bech32: 'bcrt',
   bip32: {
@@ -20,7 +37,7 @@ const regtest = {
   scriptHash: 0xc4,
   wif: 0xef,
 };
-const testnet = {
+const testnet: Network = {
   messagePrefix: '\x18Bitcoin Signed Message:\n',
   bech32: 'tb',
   bip32: {
