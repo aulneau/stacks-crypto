@@ -1,3 +1,4 @@
+// @ts-nocheck
 // this file is here to use this buffer, does not work in esm based projects (hard to polyfill with vite)
 import { Buffer } from 'buffer';
 

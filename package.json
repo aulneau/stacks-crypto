@@ -17,9 +17,13 @@
     "lint:prettier": "prettier --check \"src/**/*.ts\"",
     "lint:prettier:fix": "prettier --write \"src/**/*.ts\""
   },
+  "jest": {
+    "testEnvironment": "node"
+  },
   "author": "Thomas Osmonson",
   "license": "MIT",
   "devDependencies": {
+    "@stacks/encryption": "^1.0.1",
     "@stacks/prettier-config": "^0.0.7",
     "prettier": "^2.2.1",
     "tsdx": "^0.14.1"

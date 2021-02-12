@@ -1,7 +1,7 @@
 import base58 from 'micro-base58';
 import { hashSha256, hashRipemd160 } from '..';
 import { networks, Versions } from './networks';
-
+import { Buffer } from 'buffer';
 // original:
 // function toBase58Check(hash, version) {
 //   typeforce(types.tuple(types.Hash160bit, types.UInt8), arguments);
