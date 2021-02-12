@@ -1,6 +1,7 @@
 {
   "name": "stacks-crypto",
-  "version": "1.0.0-beta.0",
+  "private": false,
+  "version": "1.0.0-beta.2",
   "description": "ES modules for foundational encrypt/decrypt methods for use within the Stacks ecosystem.",
   "main": "src/index.ts",
   "module": "dist/stacks-crypto.esm.js",
@@ -17,7 +18,7 @@
     "lint:prettier:fix": "prettier --write \"src/**/*.ts\""
   },
   "author": "Thomas Osmonson",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@stacks/prettier-config": "^0.0.7",
     "prettier": "^2.2.1",
@@ -26,6 +27,7 @@
   "prettier": "@stacks/prettier-config",
   "dependencies": {
     "buffer": "^6.0.3",
+    "micro-base58": "^0.4.3",
     "noble-secp256k1": "^1.1.2"
   }
 }

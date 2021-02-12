@@ -4112,6 +4112,11 @@ merge-stream@^2.0.0:
   resolved "https://registry.yarnpkg.com/merge-stream/-/merge-stream-2.0.0.tgz#52823629a14dd00c9770fb6ad47dc6310f2c1f60"
   integrity sha512-abv/qOcuPfk3URPfDzmZU1LKmuw8kT+0nIHvKrKgFrwifol/doWcdA4ZqsWQ8ENrFKkd67Mfpo/LovbIUsbt3w==
 
+micro-base58@^0.4.3:
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/micro-base58/-/micro-base58-0.4.3.tgz#35915f4df752ca70026906e09cd19dd4c7b22742"
+  integrity sha512-OF2lAJv11ciOWLPHynaNCnhjv8zLy6v3uF1Lc0pT9S4sNDmBSGT/YBlQmaQF7eEdinjJrbM+aF0k+sWXHwkmGg==
+
 micromatch@4.x, micromatch@^4.0.2:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/micromatch/-/micromatch-4.0.2.tgz#4fcb0999bf9fbc2fcbdd212f6d629b9a56c39259"
