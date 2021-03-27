@@ -25,12 +25,14 @@
   "devDependencies": {
     "@stacks/encryption": "^1.0.1",
     "@stacks/prettier-config": "^0.0.7",
+    "jsontokens": "3.0.0",
     "prettier": "^2.2.1",
     "tsdx": "^0.14.1"
   },
   "prettier": "@stacks/prettier-config",
   "dependencies": {
     "buffer": "^6.0.3",
+    "ecdsa-sig-formatter": "^1.0.11",
     "micro-base58": "^0.4.3",
     "noble-secp256k1": "^1.1.2"
   }

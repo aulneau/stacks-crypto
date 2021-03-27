@@ -2,6 +2,19 @@
 // this file is here to use this buffer, does not work in esm based projects (hard to polyfill with vite)
 import { Buffer } from 'buffer';
 
+export type BufferEncodings =
+  | 'ascii'
+  | 'utf8'
+  | 'utf-8'
+  | 'utf16le'
+  | 'ucs2'
+  | 'ucs-2'
+  | 'base64'
+  | 'latin1'
+  | 'binary'
+  | 'hex'
+  | undefined;
+
 export function padString(input: string): string {
   let segmentLength = 4;
   let stringLength = input.length;
@@ -25,14 +38,14 @@ export function padString(input: string): string {
   return buffer.toString();
 }
 
-function encode(input: string | Buffer, encoding: string = 'utf8'): string {
+function encode(input: string | Buffer, encoding: BufferEncodings = 'utf8'): string {
   if (Buffer.isBuffer(input)) {
     return fromBase64(input.toString('base64'));
   }
   return fromBase64(Buffer.from(input as string, encoding).toString('base64'));
 }
 
-function decode(base64url: string, encoding: string = 'utf8'): string {
+function decode(base64url: string, encoding: BufferEncodings = 'utf8'): string {
   return Buffer.from(toBase64(base64url), 'base64').toString(encoding);
 }
 

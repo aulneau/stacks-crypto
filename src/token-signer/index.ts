@@ -2,6 +2,7 @@ import base64url from './base64url';
 import { hashSha256 } from '../common/sha2Hash';
 import * as noble from 'noble-secp256k1';
 import { Buffer } from 'buffer';
+import { derToJose } from 'ecdsa-sig-formatter';
 
 export interface TokenInterface {
   header: {
@@ -136,20 +137,20 @@ export class TokenSigner {
     signingInput: string,
     signingInputHash: Buffer
   ): Promise<SignedToken | string> {
-    // sign the message and add in the signature
-    const signature = Buffer.from(await noble.sign(signingInputHash, this.rawPrivateKey)).toString(
-      'hex'
-    );
+    const sig = await noble.sign(signingInputHash, this.rawPrivateKey);
+
+    const sigBuf = Buffer.from(sig);
+    const formatted: string = derToJose(sigBuf, 'ES256');
 
     if (expanded) {
       const signedToken: SignedToken = {
         header: [base64url.encode(JSON.stringify(header))],
         payload: JSON.stringify(payload),
-        signature: [Buffer.from(signature).toString('hex')],
+        signature: [formatted],
       };
       return signedToken;
     } else {
-      return [signingInput, signature].join('.');
+      return [signingInput, formatted].join('.');
     }
   }
 }
