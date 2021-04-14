@@ -60,7 +60,7 @@ export async function createSha2Hash(): Promise<Sha2Hash> {
 
 export async function hashSha256(data: Buffer): Promise<Buffer> {
   const hash = await createSha2Hash();
-  return await hash.digest(data, 'sha512');
+  return await hash.digest(data, 'sha256');
 }
 
 export async function hashSha512(data: Buffer): Promise<Buffer> {

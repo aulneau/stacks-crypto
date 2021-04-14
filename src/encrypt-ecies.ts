@@ -7,8 +7,8 @@ import { getRandomBytes } from './common/random-bytes';
 export async function encryptECIES(options: EncryptECIESOptions): Promise<CipherObject> {
   const { publicKey, content, cipherTextEncoding, wasString } = options;
   const ephemeralPrivateKey = Buffer.from(utils.randomPrivateKey()).toString('hex');
-  const ephemeralPublicKey = Buffer.from(getPublicKey(ephemeralPrivateKey), 'hex');
-  const sharedKey = getSharedSecret(ephemeralPrivateKey, publicKey);
+  const ephemeralPublicKey = Buffer.from(getPublicKey(ephemeralPrivateKey, true), 'hex');
+  const sharedKey = getSharedSecret(ephemeralPrivateKey, publicKey, true);
   const sharedKeys = await sharedSecretToKeys(Buffer.from(sharedKey));
   const initializationVector = await getRandomBytes(16);
 
