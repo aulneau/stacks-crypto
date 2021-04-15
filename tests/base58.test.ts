@@ -1,5 +1,5 @@
+import { privateKeyToAddress } from '../src/addresses';
 import { publicKeyToAddress } from '../src/base58';
-import { privateKeyToAddress } from '../dist';
 
 const publicKey = '029eabdfa0902bb7fd449a9c244fea5920986c0cb3f6bddf5a04c15ca60d1df255';
 const privateKey = '172e1ca4745a8021c7049f51c1cbd1edc3c4345e30822dbb2ad36a9d0d3a6912';

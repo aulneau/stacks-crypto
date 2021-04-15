@@ -1,0 +1,30 @@
+name: Pull Request
+
+on: [push, pull_request]
+
+jobs:
+  code_checks:
+    name: Code Checks
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x, 15.x]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install yarn dependencies
+        run: yarn --frozen-lockfile --ignore-scripts
+      - name: Lint
+        run: yarn lint:prettier
+      - name: Typecheck
+        run: yarn typecheck
+      - name: Build
+        run: yarn build
+      - name: Tests
+        run: yarn test:coverage

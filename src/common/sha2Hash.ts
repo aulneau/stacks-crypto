@@ -3,14 +3,14 @@ import { getCryptoLib } from './crypto-utils';
 
 import type { NodeCryptoCreateHash, Sha2Hash } from './types';
 
-export class NodeCryptoSha2Hash {
+export class NodeCryptoSha2Hash implements Sha2Hash {
   createHash: NodeCryptoCreateHash;
 
   constructor(createHash: NodeCryptoCreateHash) {
     this.createHash = createHash;
   }
 
-  async digest(data: Buffer, algorithm = 'sha256'): Promise<Buffer> {
+  async digest(data: Uint8Array, algorithm = 'sha256'): Promise<Buffer> {
     try {
       const result = this.createHash(algorithm).update(data).digest();
       return Promise.resolve(result);
@@ -29,7 +29,7 @@ export class WebCryptoSha2Hash implements Sha2Hash {
     this.webCrypto = webCrypto;
   }
 
-  async digest(data: Buffer, algorithm = 'sha256'): Promise<Buffer> {
+  async digest(data: Uint8Array, algorithm = 'sha256'): Promise<Buffer> {
     let algo: string;
     if (algorithm === 'sha256') {
       algo = 'SHA-256';
@@ -58,12 +58,12 @@ export async function createSha2Hash(): Promise<Sha2Hash> {
   }
 }
 
-export async function hashSha256(data: Buffer): Promise<Buffer> {
+export async function hashSha256(data: Uint8Array): Promise<Buffer> {
   const hash = await createSha2Hash();
   return await hash.digest(data, 'sha256');
 }
 
-export async function hashSha512(data: Buffer): Promise<Buffer> {
+export async function hashSha512(data: Uint8Array): Promise<Buffer> {
   const hash = await createSha2Hash();
   return await hash.digest(data, 'sha512');
 }
