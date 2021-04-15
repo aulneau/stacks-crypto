@@ -5,11 +5,11 @@ export type NodeCryptoCreateHash = typeof import('crypto').createHash;
 export type NodeCryptoCreateHmac = typeof import('crypto').createHmac;
 
 export interface Sha2Hash {
-  digest(data: Buffer, algorithm?: 'sha256' | 'sha512'): Promise<Buffer>;
+  digest(data: Uint8Array, algorithm?: 'sha256' | 'sha512'): Promise<Buffer>;
 }
 
 export interface Hmac {
-  digest(key: Buffer, data: Buffer): Promise<Buffer>;
+  digest(key: Uint8Array, data: Uint8Array): Promise<Buffer>;
 }
 
 export interface EncryptECIESOptions {

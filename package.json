@@ -12,6 +12,7 @@
     "prepublishOnly": "yarn typecheck && yarn build",
     "start": "tsdx watch --verbose --noClean --onSuccess yalc publish --push",
     "test": "tsdx test --passWithNoTests",
+    "test:coverage": "tsdx test --coverage",
     "typecheck": "tsc --noEmit",
     "typecheck:watch": "npm run typecheck -- --watch",
     "lint:prettier": "prettier --check \"src/**/*.ts\"",

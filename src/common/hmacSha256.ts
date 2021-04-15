@@ -9,7 +9,7 @@ export class NodeCryptoHmacSha256 implements Hmac {
     this.createHmac = createHmac;
   }
 
-  async digest(key: Buffer, data: Buffer): Promise<Buffer> {
+  async digest(key: Uint8Array, data: Uint8Array): Promise<Buffer> {
     const result = this.createHmac('sha256', key).update(data).digest();
     return Promise.resolve(result);
   }
@@ -22,7 +22,7 @@ export class WebCryptoHmacSha256 implements Hmac {
     this.webCrypto = webCrypto;
   }
 
-  async digest(key: Buffer, data: Buffer): Promise<Buffer> {
+  async digest(key: Uint8Array, data: Uint8Array): Promise<Buffer> {
     const cryptoKey = await this.webCrypto.subtle.importKey(
       'raw',
       key,

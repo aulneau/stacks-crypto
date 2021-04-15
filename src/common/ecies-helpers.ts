@@ -21,7 +21,7 @@ export async function hmacSha256(key: Buffer, content: Buffer) {
 }
 
 export async function sharedSecretToKeys(
-  sharedSecret: Buffer
+  sharedSecret: Uint8Array
 ): Promise<{ encryptionKey: Buffer; hmacKey: Buffer }> {
   // generate mac and encryption key from shared secret
   const hashedSecret = await hashSha512(sharedSecret);

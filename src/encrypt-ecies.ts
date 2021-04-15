@@ -6,10 +6,12 @@ import { getRandomBytes } from './common/random-bytes';
 
 export async function encryptECIES(options: EncryptECIESOptions): Promise<CipherObject> {
   const { publicKey, content, cipherTextEncoding, wasString } = options;
-  const ephemeralPrivateKey = Buffer.from(utils.randomPrivateKey()).toString('hex');
-  const ephemeralPublicKey = Buffer.from(getPublicKey(ephemeralPrivateKey, true), 'hex');
-  const sharedKey = getSharedSecret(ephemeralPrivateKey, publicKey, true);
-  const sharedKeys = await sharedSecretToKeys(Buffer.from(sharedKey));
+  const ephemeralPrivateKey = utils.randomPrivateKey();
+  const ephemeralPublicKey = getPublicKey(ephemeralPrivateKey, true);
+  let sharedSecret = getSharedSecret(ephemeralPrivateKey, publicKey, true) as Uint8Array;
+  // Trim the compressed mode prefix byte
+  sharedSecret = sharedSecret.slice(1);
+  const sharedKeys = await sharedSecretToKeys(sharedSecret);
   const initializationVector = await getRandomBytes(16);
 
   const cipherText = await aes256CbcEncrypt(
@@ -33,7 +35,7 @@ export async function encryptECIES(options: EncryptECIESOptions): Promise<Cipher
 
   const result: CipherObject = {
     iv: initializationVector.toString('hex'),
-    ephemeralPK: ephemeralPublicKey.toString('hex'),
+    ephemeralPK: Buffer.from(ephemeralPublicKey.buffer).toString('hex'),
     cipherText: cipherTextString,
     mac: mac.toString('hex'),
     wasString,

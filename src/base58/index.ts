@@ -1,5 +1,6 @@
 import base58 from 'micro-base58';
-import { hashSha256, hashRipemd160 } from '..';
+import { hashSha256 } from '../common/sha2Hash';
+import { hashRipemd160 } from '../common/hashRipemd160';
 import { networks, Versions } from './networks';
 import { Buffer } from 'buffer';
 // original:
